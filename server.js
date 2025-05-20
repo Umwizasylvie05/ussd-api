@@ -95,90 +95,87 @@ async function updateUser(phoneNumber, language) {
 }
 
 app.post('/ussd', async (req, res) => {
-    const {
-        sessionId,
-        serviceCode,
-        phoneNumber,
-        text,
-    } = req.body;
+  const { sessionId, phoneNumber, text } = req.body;
+  let response = '';
 
-    let response = '';
-
-    if (text === '') {
-
-        response = `CON Choose Language
+  if (text === '') {
+    response = `CON Welcome / Karibu
+1. Continue`;
+  }
+  else if (text === '1') {
+ 
+    response = `CON Select Language:
 1. English
 2. Kinyarwanda
 0. Exit`;
-    } 
-    else if (text === '1') {
-        await updateUser(phoneNumber, 'English');
-        
-        response = `CON Choose food information you want to view
-1. Eat cassava and potato
+  }
+  else if (text === '1*1') {
+    await updateUser(phoneNumber, 'English');
+    response = `CON Choose Food information you want to view:
+1. Eat Beans and potato
 2. Eat maize and beans
-3. Eat egg and meat
+3. Eat eggs and meat
 4. Eat chicken and bread
 0. Go back`;
-    } 
-    else if (text === '1*1') {
-        response = `END You selected: Eat cassava and potato`;
-    } 
-    else if (text === '1*2') {
-        response = `END You selected: Eat maize and beans`;
-    } 
-    else if (text === '1*3') {
-        response = `END You selected: Eat egg and meat`;
-    } 
-    else if (text === '1*4') {
-        response = `END You selected: Eat chicken and bread`;
-    } 
-    else if (text === '1*0') {
-        response = `CON Choose Language
-1. English
-2. Kinyarwanda
-0. Exit`;
-    }
-    else if (text === '2') {
-        await updateUser(phoneNumber, 'Kinyarwanda');
-        
-        response = `CON Hitamo amakuru y'ibiryo ushaka kureba
-1. Kurya imyumbati n'ibirayi
+  }
+  else if (text === '1*2') {
+    await updateUser(phoneNumber, 'Kinyarwanda');
+    response = `CON Hitamo amakuru y'ibiryo ushaka kureba:
+1. Kurya Ibishyimbo n'ibirayi
 2. Kurya ibigori n'ibishyimbo
 3. Kurya amagi n'inyama
 4. Kurya inkoko n'umugati
 0. Gusubira inyuma`;
-    } 
-    else if (text === '2*1') {
-        response = `END Wahisemo: Kurya imyumbati n'ibirayi`;
-    } 
-    else if (text === '2*2') {
-        response = `END Wahisemo: Kurya ibigori n'ibishyimbo`;
-    } 
-    else if (text === '2*3') {
-        response = `END Wahisemo: Kurya amagi n'inyama`;
-    } 
-    else if (text === '2*4') {
-        response = `END Wahisemo: Kurya inkoko n'umugati`;
-    } 
-    else if (text === '2*0') {
-        response = `CON Choose Language
+  }
+  else if (text === '1*0') {
+    // Go back to welcome screen
+    response = `CON Welcome / Karibu
+1. Continue`;
+  }
+  else if (text === '1*1*1') {
+    response = `END You selected: Eat cassava and potato`;
+  }
+  else if (text === '1*1*2') {
+    response = `END You selected: Eat maize and beans`;
+  }
+  else if (text === '1*1*3') {
+    response = `END You selected: Eat egg and meat`;
+  }
+  else if (text === '1*1*4') {
+    response = `END You selected: Eat chicken and bread`;
+  }
+  else if (text === '1*2*1') {
+    response = `END Wahisemo: Kurya imyumbati n'ibirayi`;
+  }
+  else if (text === '1*2*2') {
+    response = `END Wahisemo: Kurya ibigori n'ibishyimbo`;
+  }
+  else if (text === '1*2*3') {
+    response = `END Wahisemo: Kurya amagi n'inyama`;
+  }
+  else if (text === '1*2*4') {
+    response = `END Wahisemo: Kurya inkoko n'umugati`;
+  }
+  else if (text === '1*2*0' || text === '1*1*0') {
+    // Back to language selection
+    response = `CON Select Language:
 1. English
 2. Kinyarwanda
 0. Exit`;
-    }
-    else if (text === '0') {
-        response = `END Thank you for using our service. Goodbye!`;
-    }
-    else {
-        response = `END Invalid selection. Please try again.`;
-    }
+  }
+  else if (text === '0' || text === '1*0') {
+    response = `END Thank you for using our service. Goodbyeeee!`;
+  }
+  else {
+    response = `END Invalid selection. Please try again.`;
+  }
 
-    await saveSessionData(sessionId, phoneNumber, text, response);
+  await saveSessionData(sessionId, phoneNumber, text, response);
 
-    res.set('Content-Type', 'text/plain');
-    res.send(response);
+  res.set('Content-Type', 'text/plain');
+  res.send(response);
 });
+
 
 app.listen(port, () => {
     console.log("Server is running on port", port);
