@@ -99,7 +99,7 @@ app.post('/ussd', async (req, res) => {
   let response = '';
 
   if (text === '') {
-    response = `CON Welcome / Karibu
+    response = `CON Welcome To QuickShop / Karibuni
 1. Continue`;
   }
   else if (text === '1') {
@@ -111,20 +111,20 @@ app.post('/ussd', async (req, res) => {
   }
   else if (text === '1*1') {
     await updateUser(phoneNumber, 'English');
-    response = `CON Choose Food information you want to view:
-1. Eat Beans and potato
-2. Eat maize and beans
-3. Eat eggs and meat
-4. Eat chicken and bread
+    response = `CON Choose Service Inormation  you want :
+1. View Categories
+2. My Cart
+3. Checkout
+4. Exit
 0. Go back`;
   }
   else if (text === '1*2') {
     await updateUser(phoneNumber, 'Kinyarwanda');
-    response = `CON Hitamo amakuru y'ibiryo ushaka kureba:
-1. Kurya Ibishyimbo n'ibirayi
-2. Kurya ibigori n'ibishyimbo
-3. Kurya amagi n'inyama
-4. Kurya inkoko n'umugati
+    response = `CON Hitamo amakuru y'ibyo ushaka:
+1. Reba Ibyiciro
+2. Ibyo dufite Mububiko
+3. Genzura Ibyo Dufite
+4. Sohoka
 0. Gusubira inyuma`;
   }
   else if (text === '1*0') {
@@ -132,31 +132,31 @@ app.post('/ussd', async (req, res) => {
     response = `CON Welcome / Karibu
 1. Continue`;
   }
-  else if (text === '1*1*1') {
-    response = `END You selected: Eat cassava and potato`;
-  }
-  else if (text === '1*1*2') {
-    response = `END You selected: Eat maize and beans`;
-  }
-  else if (text === '1*1*3') {
-    response = `END You selected: Eat egg and meat`;
-  }
-  else if (text === '1*1*4') {
-    response = `END You selected: Eat chicken and bread`;
-  }
-  else if (text === '1*2*1') {
-    response = `END Wahisemo: Kurya imyumbati n'ibirayi`;
-  }
-  else if (text === '1*2*2') {
-    response = `END Wahisemo: Kurya ibigori n'ibishyimbo`;
-  }
-  else if (text === '1*2*3') {
-    response = `END Wahisemo: Kurya amagi n'inyama`;
-  }
-  else if (text === '1*2*4') {
-    response = `END Wahisemo: Kurya inkoko n'umugati`;
-  }
-  else if (text === '1*2*0' || text === '1*1*0') {
+else if (text === '1') {
+  response = `CON Welcome to QuickShop
+1. View Categories
+2. My Cart
+3. Checkout
+0. Exit`;
+}
+else if (text === '1*1') {
+  response = `CON Select a category:
+1. Food & Drinks
+2. Electronics
+3. Clothing
+0. Back`;
+}
+else if (text === '1*1*1') {
+  response = `CON Choose a product:
+1. Rice - 5000 RWF
+2. Beans - 3000 RWF
+3. Milk - 800 RWF
+0. Back`;
+}
+else if (text === '1*1*1*1') {
+  response = `END You added Rice to your cart.`;
+}
+
     // Back to language selection
     response = `CON Select Language:
 1. English
@@ -174,9 +174,7 @@ app.post('/ussd', async (req, res) => {
 
   res.set('Content-Type', 'text/plain');
   res.send(response);
-});
-
-
+ 
 app.listen(port, () => {
     console.log("Server is running on port", port);
 });
