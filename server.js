@@ -99,7 +99,7 @@ app.post('/ussd', async (req, res) => {
   let response = '';
 
   if (text === '') {
-    response = `CON Welcome To QuickShop / Karibuni
+    response = `CON Welcome / Karibu
 1. Continue`;
   }
   else if (text === '1') {
@@ -111,52 +111,52 @@ app.post('/ussd', async (req, res) => {
   }
   else if (text === '1*1') {
     await updateUser(phoneNumber, 'English');
-    response = `CON Choose Service Inormation  you want :
-1. View Categories
-2. My Cart
-3. Checkout
-4. Exit
+    response = `CON Choose Airplane Ticket information you want to view:
+1. Ticket To Dubai
+2. Ticket To Canada
+3. Ticket To Quatar
+4. Ticket To Italy
 0. Go back`;
   }
   else if (text === '1*2') {
     await updateUser(phoneNumber, 'Kinyarwanda');
-    response = `CON Hitamo amakuru y'ibyo ushaka:
-1. Reba Ibyiciro
-2. Ibyo dufite Mububiko
-3. Genzura Ibyo Dufite
-4. Sohoka
+    response = `CON Hitamo amakuru y'itike z'indege ushaka kureba:
+1. Itike Ya Dubayi
+2. Itike Ya kanada
+3. Itike Ya katari
+4. Itike Ya Yubufaransa
 0. Gusubira inyuma`;
   }
   else if (text === '1*0') {
     // Go back to welcome screen
-    response = `CON Welcome / Karibu
+    response = `CON Welcome / Karibuni
 1. Continue`;
   }
-else if (text === '1') {
-  response = `CON Welcome to QuickShop
-1. View Categories
-2. My Cart
-3. Checkout
-0. Exit`;
-}
-else if (text === '1*1') {
-  response = `CON Select a category:
-1. Food & Drinks
-2. Electronics
-3. Clothing
-0. Back`;
-}
-else if (text === '1*1*1') {
-  response = `CON Choose a product:
-1. Rice - 5000 RWF
-2. Beans - 3000 RWF
-3. Milk - 800 RWF
-0. Back`;
-}
-else if (text === '1*1*1*1') {
-  response = `END You added Rice to your cart.`;
-}
-
+  else if (text === '1*1*1') {
+    response = `END You selected: Ticket To Dubai`;
+  }
+  else if (text === '1*1*2') {
+    response = `END You selected: Ticket To Canada`;
+  }
+  else if (text === '1*1*3') {
+    response = `END You selected: Ticket To Quatar`;
+  }
+  else if (text === '1*1*4') {
+    response = `END You selected: Ticket To Italy`;
+  }
+  else if (text === '1*2*1') {
+    response = `END Wahisemo: Itike Ya Dubayi`;
+  }
+  else if (text === '1*2*2') {
+    response = `END Wahisemo: Itike Ya kanada`;
+  }
+  else if (text === '1*2*3') {
+    response = `END Wahisemo: Itike Ya katari`;
+  }
+  else if (text === '1*2*4') {
+    response = `END Wahisemo: Itike Ya Yubufaransa`;
+  }
+  else if (text === '1*2*0' || text === '1*1*0') {
     // Back to language selection
     response = `CON Select Language:
 1. English
@@ -164,7 +164,7 @@ else if (text === '1*1*1*1') {
 0. Exit`;
   }
   else if (text === '0' || text === '1*0') {
-    response = `END Thank you for using our service. Goodbyeeee!`;
+    response = `END Thank you for using our service. Goodbyeee!`;
   }
   else {
     response = `END Invalid selection. Please try again.`;
@@ -174,7 +174,9 @@ else if (text === '1*1*1*1') {
 
   res.set('Content-Type', 'text/plain');
   res.send(response);
- 
+});
+
+
 app.listen(port, () => {
     console.log("Server is running on port", port);
 });
